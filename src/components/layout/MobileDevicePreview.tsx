@@ -6,7 +6,7 @@ interface MobileDevicePreviewProps {
 
 export const MobileDevicePreview: React.FC<MobileDevicePreviewProps> = ({ children }) => {
   return (
-    <div className="w-full min-h-screen sm:h-screen sm:max-h-screen flex flex-col items-center justify-start sm:justify-center bg-surface-bg sm:bg-slate-950 dark:bg-surface-bg sm:dark:bg-slate-950 text-content-primary overflow-x-hidden sm:overflow-hidden select-none transition-colors selection:bg-groww-emerald/20 selection:text-content-primary p-0 sm:p-3 md:p-4">
+    <div className="w-full h-screen h-[100dvh] sm:h-screen sm:max-h-screen flex flex-col items-center justify-start sm:justify-center bg-surface-bg sm:bg-slate-950 dark:bg-surface-bg sm:dark:bg-slate-950 text-content-primary overflow-x-hidden overflow-y-hidden sm:overflow-hidden sm:select-none transition-colors selection:bg-groww-emerald/20 selection:text-content-primary p-0 sm:p-3 md:p-4">
       {/* Subtle Desktop Presentational Header Bar (Desktop Only) */}
       <header
         className="hidden sm:flex items-center justify-between w-full max-w-[420px] mb-2 px-3 text-[11px] text-slate-400 shrink-0"
@@ -21,7 +21,7 @@ export const MobileDevicePreview: React.FC<MobileDevicePreviewProps> = ({ childr
 
       {/* Realistic Smartphone Chassis Frame */}
       <div
-        className="relative w-full sm:w-[410px] min-h-screen sm:min-h-0 sm:h-[min(844px,calc(100vh-3.5rem))] sm:rounded-[52px] bg-surface-bg sm:bg-neutral-900 border-0 sm:border-[10px] sm:border-neutral-800 shadow-none sm:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85),0_0_0_1px_rgba(255,255,255,0.12),0_0_0_4px_rgba(23,23,23,0.8)] flex flex-col overflow-hidden"
+        className="relative w-full h-full min-h-0 sm:w-[410px] sm:h-[min(844px,calc(100vh-3.5rem))] sm:rounded-[52px] bg-surface-bg sm:bg-neutral-900 border-0 sm:border-[10px] sm:border-neutral-800 shadow-none sm:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85),0_0_0_1px_rgba(255,255,255,0.12),0_0_0_4px_rgba(23,23,23,0.8)] flex flex-col overflow-hidden"
         aria-label="Smartphone frame viewport"
       >
         {/* Physical hardware side buttons (desktop only) */}
@@ -60,7 +60,7 @@ export const MobileDevicePreview: React.FC<MobileDevicePreviewProps> = ({ childr
         {/* Phone Screen Area: Containing block for all fixed/absolute elements */}
         <div
           id="phone-screen-container"
-          className="relative w-full min-h-screen min-h-[100dvh] sm:min-h-0 sm:h-full flex-1 sm:rounded-[42px] overflow-hidden bg-surface-bg text-content-primary flex flex-col [transform:translateZ(0)]"
+          className="relative w-full h-full min-h-0 flex-1 sm:rounded-[42px] overflow-hidden bg-surface-bg text-content-primary flex flex-col [transform:translateZ(0)]"
         >
           {/* Simulated Mobile Status Bar (desktop only) */}
           <div
@@ -93,7 +93,7 @@ export const MobileDevicePreview: React.FC<MobileDevicePreviewProps> = ({ childr
           {/* Actual Scrollable Content Viewport */}
           <div
             id="phone-scroll-viewport"
-            className="flex-1 w-full overflow-y-auto overflow-x-hidden relative overscroll-contain focus:outline-none scroll-smooth"
+            className="flex-1 min-h-0 w-full h-full overflow-y-auto overflow-x-hidden relative overscroll-y-contain focus:outline-none scroll-smooth [-webkit-overflow-scrolling:touch] [touch-action:pan-y]"
             tabIndex={0}
             role="region"
             aria-label="Mobile app screen content"

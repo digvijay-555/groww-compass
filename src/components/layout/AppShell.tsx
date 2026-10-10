@@ -1,10 +1,24 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import { MobileDevicePreview } from './MobileDevicePreview';
 import { MobileHeader } from './MobileHeader';
 import { BottomNavigation } from './BottomNavigation';
 
 export const AppShell: React.FC = () => {
+  const location = useLocation();
+
+  // Reset internal viewport scroll position upon route change
+  useEffect(() => {
+    const viewport = document.getElementById('phone-scroll-viewport');
+    if (viewport) {
+      if (typeof viewport.scrollTo === 'function') {
+        viewport.scrollTo({ top: 0, behavior: 'instant' });
+      } else {
+        viewport.scrollTop = 0;
+      }
+    }
+  }, [location.pathname, location.search]);
+
   return (
     <MobileDevicePreview>
       {/* Compact Mobile Header */}

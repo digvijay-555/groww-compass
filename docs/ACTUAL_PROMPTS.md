@@ -159,3 +159,24 @@ Each entry documents:
     2. Aligned `beginnerUx.test.tsx` Scenario 1 with final Home page card titles (*Compare options*, *Explore investments*, *Learn the basics*).
     3. Aligned `beginnerUx.test.tsx` Scenario 2 with the sequential flow (Screen 1 → Screen 2 *What do you want to compare?* → Continue CTA → Screen 4 *Investment Comparison Lab*).
   - All 15 test files and 126 tests verified passing.
+
+---
+
+### Prompt 13: Physical Mobile Device Scrolling Unresponsiveness Remediation
+- **Timestamp:** 2026-10-10T09:02:00Z
+- **User Prompt:**
+  > "now the problem is that the app is scrollable on the windows screen in a virtual mobile but not in a mobile device which i am trying to access it in"
+- **Diagnosis & Technical Root Cause:**
+  - On desktop (`sm:`), the phone chassis had a bounded fixed height (`sm:h-[min(844px,calc(100vh-3.5rem))]`), allowing `#phone-scroll-viewport` with `flex-1` to calculate scroll overflow and scroll with mouse wheel.
+  - On physical smartphones (`< sm` viewports):
+    1. The outer wrapper and chassis frame used `min-h-screen` without bounded height (`h-screen h-[100dvh]`).
+    2. In CSS Flexbox, child `#phone-scroll-viewport` (with `flex-1` and default `min-height: auto`) resolved against an indefinite parent height and expanded to fit its entire content (~2500px), eliminating internal scroll overflow (`scrollHeight === clientHeight`).
+    3. Parent containers had `overflow-hidden`, and the outer container had `select-none`, permanently trapping touch gestures and leaving the physical screen frozen.
+- **Outcome & Fixes Applied:**
+  - In `src/components/layout/MobileDevicePreview.tsx`:
+    1. Constrained outer container to `h-screen h-[100dvh] overflow-x-hidden overflow-y-hidden sm:overflow-hidden` and restricted `select-none` to desktop (`sm:select-none`).
+    2. Updated smartphone frame chassis and `#phone-screen-container` to `h-full min-h-0 flex-1`.
+    3. Updated `#phone-scroll-viewport` to `flex-1 min-h-0 w-full h-full overflow-y-auto overflow-x-hidden relative overscroll-y-contain focus:outline-none scroll-smooth [-webkit-overflow-scrolling:touch] [touch-action:pan-y]`.
+  - In `src/components/layout/AppShell.tsx`:
+    - Added automatic route-change scroll reset to ensure the viewport scrolls back to top when switching pages or steps.
+  - Documented as `BUG-10` in `docs/EVALUATION_RESULTS.md`.
