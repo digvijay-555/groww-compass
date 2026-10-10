@@ -180,3 +180,20 @@ Each entry documents:
   - In `src/components/layout/AppShell.tsx`:
     - Added automatic route-change scroll reset to ensure the viewport scrolls back to top when switching pages or steps.
   - Documented as `BUG-10` in `docs/EVALUATION_RESULTS.md`.
+
+---
+
+### Prompt 14: Android Mobile Browser Bottom Navigation Visibility & Overflow Remediation
+- **Timestamp:** 2026-10-10T09:14:00Z
+- **User Prompt:**
+  > "it looks good but the bottom pane is not visible on the android browser it may have overflows"
+- **Diagnosis & Technical Root Cause:**
+  - On Android mobile browsers (e.g. Chrome, Samsung Internet), the browser URL address bar and Android system 3-button/gesture bar subtract from the visible viewport.
+  - Sizing the outer container with `100vh` made it ~56px–80px taller than the visible viewport, extending beneath the browser chrome.
+  - Critically, `#phone-screen-container` had unconditional `[transform:translateZ(0)]`. In CSS, any transform establishes a local containing block for `position: fixed` descendants. Because `BottomNavigation` (`fixed bottom-0`) was contained within `#phone-screen-container` (which was 100vh tall and had `overflow: hidden`), `BottomNavigation` was pinned to the bottom of the 100vh container—completely off-screen and clipped.
+- **Outcome & Fixes Applied:**
+  - In `src/components/layout/MobileDevicePreview.tsx`:
+    1. Replaced outer container mobile sizing with `fixed inset-0 sm:relative sm:inset-auto w-full h-full sm:h-screen sm:max-h-screen`, ensuring the wrapper matches the exact visible dynamic viewport of the mobile browser without 100vh overflow.
+    2. Scoped `[transform:translateZ(0)]` strictly to desktop (`sm:[transform:translateZ(0)]`). On mobile (`< sm`), `BottomNavigation` is anchored directly to the true browser viewport at `bottom: 0`, placing it immediately above the Android navigation bar.
+    3. Scoped chassis overflow clipping to desktop (`sm:overflow-hidden`).
+  - Documented as `BUG-11` in `docs/EVALUATION_RESULTS.md`.
