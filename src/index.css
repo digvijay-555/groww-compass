@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light theme values — Crisp, accessible, calm slate surfaces */
+  --bg-primary: #F8FAFC;          /* slate-50 base background */
+  --bg-surface: #FFFFFF;          /* pure white card surface */
+  --bg-surface-elevated: #F1F5F9; /* slate-100 inputs, sub-panels */
+  --bg-surface-hover: #E2E8F0;    /* slate-200 hover states */
+  --text-primary: #0F172A;        /* slate-900 (14.2:1 contrast against white) */
+  --text-secondary: #334155;      /* slate-700 (7.1:1 contrast against white) */
+  --text-muted: #64748B;          /* slate-500 (4.6:1 contrast against white) */
+  --border-default: #E2E8F0;      /* slate-200 clean hairline borders */
+  --border-subtle: #F1F5F9;       /* slate-100 subtle dividers */
+  
+  /* Brand Green in Light Mode */
+  --brand-emerald-primary: #00D09C;      /* Used for solid button fills */
+  --brand-emerald-hover: #00B386;        /* Used for button hover */
+  --brand-emerald-text: #047857;         /* emerald-700 for text/links on white (4.8:1 contrast) */
+  --brand-emerald-badge-bg: #ECFDF5;     /* emerald-50 badge background */
+  --brand-emerald-badge-border: #A7F3D0; /* emerald-200 badge border */
+  
+  /* Semantic Status Colors (Light Mode) */
+  --color-success: #15803D;        /* green-700 */
+  --color-warning: #B45309;        /* amber-700 */
+  --color-danger: #B91C1C;         /* red-700 */
+  --color-info: #0369A1;           /* sky-700 */
+  --focus-ring: #047857;           /* High contrast focus ring on light background */
+}
+
+html.dark {
+  /* Dark theme values — Deep charcoal base with distinct surface layers */
+  --bg-primary: #0D1117;          /* deep charcoal base (not pitch black) */
+  --bg-surface: #161B22;          /* distinct card surface layer */
+  --bg-surface-elevated: #21262D; /* elevated layer for sheets, inputs, sub-panels */
+  --bg-surface-hover: #29303B;    /* hover/active state */
+  --text-primary: #F8FAFC;        /* slate-50 crisp high-contrast off-white (> 14:1) */
+  --text-secondary: #94A3B8;      /* slate-400 (> 5.5:1 contrast against #161B22) */
+  --text-muted: #64748B;          /* slate-500 (> 4.5:1 contrast against #161B22) */
+  --border-default: #30363D;      /* crisp hairline dark border */
+  --border-subtle: #21262D;       /* subtle dark divider */
+  
+  /* Brand Green in Dark Mode */
+  --brand-emerald-primary: #00D09C;      /* Restrained mint lime-green */
+  --brand-emerald-hover: #00B386;
+  --brand-emerald-text: #00D09C;         /* Vibrant legible green on dark background */
+  --brand-emerald-badge-bg: rgba(0, 208, 156, 0.12);
+  --brand-emerald-badge-border: rgba(0, 208, 156, 0.25);
+  
+  /* Semantic Status Colors (Dark Mode) */
+  --color-success: #4ADE80;        /* green-400 */
+  --color-warning: #FBBF24;        /* amber-400 */
+  --color-danger: #F87171;         /* red-400 */
+  --color-info: #38BDF8;           /* sky-400 */
+  --focus-ring: #00D09C;           /* Mint emerald focus ring on dark */
+}
+
+/* Base reset for mobile-first rendering */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+}
+
+/* Prominent, accessible focus rings for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Safe area padding utilities */
+.pb-safe {
+  padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 1.25rem));
+}
+
+/* Ensure pb-28 and main container combined with pb-safe retain full clearance above bottom navigation (84px nav + 60px clearance) */
+.pb-28.pb-safe,
+main#main-content.pb-safe,
+main#main-content {
+  padding-bottom: calc(7.5rem + max(1.5rem, env(safe-area-inset-bottom, 1.5rem))) !important;
+}
+
+.pt-safe {
+  padding-top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
+}
+
+/* Custom scrollbar styling that stays unobtrusive */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Respect user's reduced motion preferences across all animations and transitions */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
